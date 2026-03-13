@@ -37,6 +37,36 @@ app.get("/todos/:id" , async(req , res)=> {
   })
 })
 
+app.post("/users/todo" , async(req , res) => {
+  const username = req.body.username ;
+  const age = req.body.age ;
+  const password = req.body.password ;
+  const city  = req.body.city ;
+  const description = req.body.description ;
+  const title = req.body.title ;
+  const done = req.body.done ;
+
+  const user = await client.user.create({
+    data : {
+      username : username ,
+      age : age ,
+      password : password ,
+      city : city , 
+      todos : {
+        create : {
+          description: description ,
+          title : title ,
+          done : done 
+        }
+      }
+    }
+  })
+
+  res.json({
+    message : "user added"
+  }) 
+})
+
 
 
 app.listen(3000);

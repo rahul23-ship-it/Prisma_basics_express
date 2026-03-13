@@ -32,16 +32,32 @@ app.get("/todos/:id", async (req, res) => {
         user
     });
 });
-async function main() {
-    const result = await client.user.findFirst({
-        where: {
-            id: 1
-        }, include: {
-            todos: true
+app.post("/users/todo", async (req, res) => {
+    const username = req.body.username;
+    const age = req.body.age;
+    const password = req.body.password;
+    const city = req.body.city;
+    const description = req.body.description;
+    const title = req.body.title;
+    const done = req.body.done;
+    const user = await client.user.create({
+        data: {
+            username: username,
+            age: age,
+            password: password,
+            city: city,
+            todos: {
+                create: {
+                    description: description,
+                    title: title,
+                    done: done
+                }
+            }
         }
     });
-    console.log(result);
-}
-main();
+    res.json({
+        message: "user added"
+    });
+});
 app.listen(3000);
 //# sourceMappingURL=index.js.map
